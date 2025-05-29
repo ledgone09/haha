@@ -1,0 +1,30 @@
+services:
+  # Web Service (Frontend + Backend combined)
+  - type: web
+    name: pump-fun-world
+    env: node
+    plan: starter
+    buildCommand: npm run build:full
+    startCommand: npm start
+    repo: https://github.com/yourusername/pump-fun-world.git # Update with your repo
+    branch: main
+    rootDir: .
+    
+    # Environment variables
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+        
+    # Health check
+    healthCheckPath: /health
+    
+    # Auto-deploy
+    autoDeploy: true
+    
+    # Disk size for file storage
+    disk:
+      name: pump-fun-world-disk
+      sizeGB: 1
+      mountPath: /tmp 

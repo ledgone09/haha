@@ -1,0 +1,288 @@
+/* Username Modal Overlay */
+.username-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Username Modal */
+.username-modal {
+  background: linear-gradient(135deg, rgba(6, 255, 165, 0.1), rgba(139, 92, 246, 0.1));
+  border: 2px solid #06FFA5;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(6, 255, 165, 0.3);
+  backdrop-filter: blur(20px);
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.username-modal-header {
+  text-align: center;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.username-modal-close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: rgba(255, 71, 87, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.username-modal-close:hover {
+  background: #ff4757;
+  transform: scale(1.1);
+}
+
+.username-modal-header h2 {
+  color: #06FFA5;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  text-shadow: 0 0 20px rgba(6, 255, 165, 0.5);
+}
+
+.username-modal-header p {
+  color: white;
+  font-size: 16px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Form */
+.username-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.username-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.username-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(6, 255, 165, 0.3);
+  border-radius: 12px;
+  padding: 15px 20px;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.username-input:focus {
+  border-color: #06FFA5;
+  box-shadow: 0 0 0 3px rgba(6, 255, 165, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.username-input.error {
+  border-color: #ff4757;
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.2);
+}
+
+.username-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.username-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.random-username-btn {
+  background: linear-gradient(135deg, #8B5CF6, #06FFA5);
+  border: none;
+  border-radius: 12px;
+  width: 50px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.random-username-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
+
+.random-username-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Error Message */
+.username-error {
+  color: #ff4757;
+  font-size: 14px;
+  text-align: center;
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Requirements */
+.username-requirements {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Submit Button */
+.username-submit-btn {
+  background: linear-gradient(135deg, #06FFA5, #8B5CF6);
+  border: none;
+  border-radius: 12px;
+  padding: 15px 25px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.username-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(6, 255, 165, 0.4);
+}
+
+.username-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Footer */
+.username-modal-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.connection-status {
+  font-size: 14px;
+}
+
+.connected {
+  color: #06FFA5;
+}
+
+.connecting {
+  color: #ffa502;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .username-modal {
+    padding: 20px;
+    margin: 20px;
+  }
+  
+  .username-modal-header h2 {
+    font-size: 24px;
+  }
+  
+  .username-modal-header p {
+    font-size: 14px;
+  }
+  
+  .username-input {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+  
+  .random-username-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .username-modal {
+    width: 95%;
+    padding: 15px;
+  }
+  
+  .username-input-group {
+    flex-direction: column;
+  }
+  
+  .random-username-btn {
+    width: 100%;
+    height: 45px;
+  }
+} 

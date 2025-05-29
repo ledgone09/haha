@@ -1,0 +1,39 @@
+{
+  "name": "pump-fun-world",
+  "author": "Pump.Fun Game Studio",
+  "license": "AGPL-3.0-or-later",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "dev:server": "cd server && npm run dev",
+    "dev:full": "concurrently \"npm run dev:server\" \"npm run dev\"",
+    "start": "node server/server.js",
+    "build": "vite build",
+    "build:server": "cd server && npm install",
+    "build:full": "npm run build:server && npm run build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.11.2",
+    "@react-three/drei": "^9.80.8",
+    "@react-three/fiber": "^8.13.7",
+    "@react-three/rapier": "^1.1.1",
+    "howler": "^2.2.3",
+    "r3f-perf": "^7.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "socket.io-client": "^4.7.4",
+    "three": "0.153.0",
+    "three-stdlib": "^2.25.0",
+    "vite-plugin-glsl": "^1.1.0",
+    "zustand": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.4",
+    "concurrently": "^8.2.2",
+    "vite": "^4.4.9"
+  }
+}
