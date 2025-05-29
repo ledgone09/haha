@@ -163,7 +163,7 @@ export default function Interface() {
       </div>
 
       {/* Phone Tumbnail Area (bottom-right) */}
-      <div className="phone-thumbnail-area" onClick={() => window.open('https://twitter.com/pumpdotfun', '_blank')}>
+      <div className="phone-thumbnail-area" onClick={() => window.open('https://x.com/pumpfunworld/', '_blank')}>
         <img
           className="phone-thumbnail"
           src="./images/phone_small.png"
