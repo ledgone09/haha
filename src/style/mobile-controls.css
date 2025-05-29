@@ -1,0 +1,141 @@
+/* Mobile Controls */
+.mobile-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  pointer-events: auto;
+}
+
+/* Virtual Joystick */
+.virtual-joystick {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(6, 255, 165, 0.2) 0%, rgba(6, 255, 165, 0.1) 70%, rgba(6, 255, 165, 0.05) 100%);
+  border: 3px solid rgba(6, 255, 165, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 0 20px rgba(6, 255, 165, 0.3),
+    inset 0 0 20px rgba(6, 255, 165, 0.1);
+  user-select: none;
+  touch-action: none;
+  cursor: pointer;
+}
+
+.virtual-joystick::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 60%);
+  pointer-events: none;
+}
+
+/* Joystick Knob */
+.joystick-knob {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #06FFA5, #8B5CF6);
+  border-radius: 50%;
+  box-shadow: 
+    0 4px 15px rgba(6, 255, 165, 0.4),
+    inset 0 2px 8px rgba(255, 255, 255, 0.3);
+  transition: transform 0.1s ease-out;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.joystick-knob:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+.knob-inner {
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+  border-radius: 50%;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Instructions */
+.joystick-instructions {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(6, 255, 165, 0.8);
+  font-size: 12px;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(6, 255, 165, 0.5);
+  pointer-events: none;
+  letter-spacing: 0.5px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .mobile-controls {
+    bottom: 15px;
+  }
+  
+  .virtual-joystick {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .joystick-knob {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .knob-inner {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobile-controls {
+    bottom: 10px;
+  }
+  
+  .virtual-joystick {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .joystick-knob {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .knob-inner {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .joystick-instructions {
+    bottom: -25px;
+    font-size: 10px;
+  }
+}
+
+/* Prevent text selection on mobile */
+.mobile-controls * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+} 

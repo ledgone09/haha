@@ -13,11 +13,12 @@ import {
 } from '@react-three/rapier';
 import useGame from './stores/useGame.js';
 import useMultiplayer from './stores/useMultiplayer.js';
+import { useMobileMovement } from './hooks/useMobileMovement.js';
 
 //==========================
 // Keyboard input handling
 //==========================
-export const useKeyboard = () => {
+export const useKeyboard = (mobileKeyState = null) => {
   const keysDown = useRef({});
 
   useEffect(() => {
@@ -37,6 +38,18 @@ export const useKeyboard = () => {
     };
   }, []);
 
+  // Merge keyboard and mobile input
+  const combinedInput = useRef({});
+  
+  if (mobileKeyState) {
+    // If mobile input is provided, combine it with keyboard input
+    combinedInput.current = {
+      ...keysDown.current,
+      ...mobileKeyState
+    };
+    return combinedInput;
+  }
+  
   return keysDown;
 };
 
@@ -54,14 +67,14 @@ export const useCharacterState = () =>
 //==========================
 // Character Controller
 //==========================
-export const useCharacterController = (bodyRef, { maxSpeed = 0.06 }) => {
+export const useCharacterController = (bodyRef, { maxSpeed = 0.06 }, mobileKeyState = null) => {
   const setPosition = useGame((state) => state.setPosition);
   const sendPlayerMove = useMultiplayer((state) => state.sendPlayerMove);
 
   const rapier = useRapier();
   const { camera } = useThree();
 
-  const keysdown = useKeyboard();
+  const keysdown = useKeyboard(mobileKeyState);
 
   const characterState = useCharacterState();
 
@@ -253,11 +266,22 @@ useGLTF.preload('/character.glb');
 //==========================
 // Character Component
 //==========================
-export const Character = () => {
+export const Character = ({ onMobileMovement = null }) => {
   const body = useRef(null);
+  
+  // Mobile movement integration - only use on mobile devices
+  const { getMobileKeyState } = useMobileMovement();
+  
+  // Check if we're on a mobile device
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+    || window.innerWidth <= 768;
+  
+  // Only get mobile key state on mobile devices
+  const mobileKeyState = isMobile ? getMobileKeyState() : null;
+  
   const state = useCharacterController(body, {
     acceleration: 0.1,
-  });
+  }, mobileKeyState);
 
   const capsule = useRef();
 
@@ -266,7 +290,7 @@ export const Character = () => {
 
   const resetCharacter = () => {
     body.current?.setLinvel(vec3());
-    body.current.setTranslation(map.nodes.x_player_spawn.position);
+    body.current?.setTranslation({ x: 0, y: 3, z: 0 });
   };
 
   useEffect(() => {
