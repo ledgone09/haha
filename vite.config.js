@@ -6,15 +6,14 @@ const isCodeSandbox =
 
 export default {
   plugins: [react(), glsl()],
-  root: 'src/',
-  publicDir: '../public/',
+  publicDir: 'public/',
   base: './',
   server: {
     host: true,
     open: !isCodeSandbox, // Open if it's not a CodeSandbox
   },
   build: {
-    outDir: '../dist',
+    outDir: 'dist',
     emptyOutDir: true,
     sourcemap: true,
   },
