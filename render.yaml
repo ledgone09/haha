@@ -4,7 +4,7 @@ services:
     name: pump-fun-world
     env: node
     plan: starter
-    buildCommand: npm run build:full
+    buildCommand: npm run build
     startCommand: npm start
     repo: https://github.com/yourusername/pump-fun-world.git # Update with your repo
     branch: main
