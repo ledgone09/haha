@@ -1,11 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
+import useGame from '../stores/useGame.js';
 import '../style/mobile-controls.css';
 
-export const MobileControls = ({ onMovement }) => {
+export const MobileControls = () => {
   const joystickRef = useRef();
   const knobRef = useRef();
   const [isDragging, setIsDragging] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Use global mobile input state
+  const setMobileInput = useGame((state) => state.setMobileInput);
   
   // Check if device is mobile
   useEffect(() => {
@@ -22,6 +26,7 @@ export const MobileControls = ({ onMovement }) => {
 
   const handleStart = (e) => {
     e.preventDefault();
+    console.log('🎯 Mobile joystick touch started'); // Debug log
     setIsDragging(true);
   };
 
@@ -66,16 +71,21 @@ export const MobileControls = ({ onMovement }) => {
     const normalizedX = knobX / maxDistance;
     const normalizedY = knobY / maxDistance;
 
-    // Send movement data to parent component
-    onMovement({
+    const movementData = {
       x: normalizedX,
       y: normalizedY,
       moving: distance > 10 // Only consider moving if moved significantly
-    });
+    };
+
+    console.log('🕹️ Joystick movement:', movementData); // Debug log
+
+    // Send movement data to parent component
+    setMobileInput(movementData);
   };
 
   const handleEnd = (e) => {
     e.preventDefault();
+    console.log('🎯 Mobile joystick touch ended'); // Debug log
     setIsDragging(false);
     
     // Reset knob position
@@ -84,7 +94,7 @@ export const MobileControls = ({ onMovement }) => {
     }
     
     // Stop movement
-    onMovement({ x: 0, y: 0, moving: false });
+    setMobileInput({ x: 0, y: 0, moving: false });
   };
 
   // Don't render on desktop

@@ -8,7 +8,6 @@ import ScanButton from './actionButtons/ScanButton.jsx';
 import { Chat } from './Chat.jsx';
 import { UsernameModal } from './UsernameModal.jsx';
 import { MobileControls } from './MobileControls.jsx';
-import { useMobileMovement } from '../hooks/useMobileMovement.js';
 
 export default function Interface() {
   const sound = useGame((state) => state.sound);
@@ -35,9 +34,6 @@ export default function Interface() {
   // Chat visibility state
   const [isChatVisible, setIsChatVisible] = useState(false);
   const [showUsernameModal, setShowUsernameModal] = useState(false);
-
-  // Mobile movement integration
-  const { handleMobileMovement } = useMobileMovement();
 
   // Debug logging
   useEffect(() => {
@@ -188,7 +184,7 @@ export default function Interface() {
       />
       
       {/* Mobile Controls */}
-      <MobileControls onMovement={handleMobileMovement} />
+      <MobileControls />
     </>
   );
 }

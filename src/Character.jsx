@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useFrame, useGraph, useThree } from '@react-three/fiber';
 import { Capsule, useGLTF, useAnimations } from '@react-three/drei';
 import { SkeletonUtils } from 'three-stdlib';
@@ -13,13 +13,13 @@ import {
 } from '@react-three/rapier';
 import useGame from './stores/useGame.js';
 import useMultiplayer from './stores/useMultiplayer.js';
-import { useMobileMovement } from './hooks/useMobileMovement.js';
 
 //==========================
 // Keyboard input handling
 //==========================
 export const useKeyboard = (mobileKeyState = null) => {
   const keysDown = useRef({});
+  const combinedInput = useRef({});
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -38,15 +38,18 @@ export const useKeyboard = (mobileKeyState = null) => {
     };
   }, []);
 
-  // Merge keyboard and mobile input
-  const combinedInput = useRef({});
+  // Update combined input whenever mobile state changes
+  useEffect(() => {
+    if (mobileKeyState) {
+      combinedInput.current = {
+        ...keysDown.current,
+        ...mobileKeyState
+      };
+      console.log('⌨️ Combined input updated:', combinedInput.current); // Debug log
+    }
+  }, [mobileKeyState]);
   
   if (mobileKeyState) {
-    // If mobile input is provided, combine it with keyboard input
-    combinedInput.current = {
-      ...keysDown.current,
-      ...mobileKeyState
-    };
     return combinedInput;
   }
   
@@ -269,15 +272,63 @@ useGLTF.preload('/character.glb');
 export const Character = ({ onMobileMovement = null }) => {
   const body = useRef(null);
   
-  // Mobile movement integration - only use on mobile devices
-  const { getMobileKeyState } = useMobileMovement();
+  // Get mobile input from global store
+  const mobileInput = useGame((state) => state.mobileInput);
   
   // Check if we're on a mobile device
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
-    || window.innerWidth <= 768;
+  const [isMobile, setIsMobile] = useState(false);
   
-  // Only get mobile key state on mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+        || window.innerWidth <= 768;
+      setIsMobile(isMobileDevice);
+      console.log('📱 Mobile device detected:', isMobileDevice); // Debug log
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  // Convert mobile input to key state
+  const getMobileKeyState = () => {
+    const { x, y, moving } = mobileInput;
+    
+    if (!moving || !isMobile) {
+      return {
+        KeyW: false,
+        KeyA: false,
+        KeyS: false,
+        KeyD: false,
+        ArrowUp: false,
+        ArrowLeft: false,
+        ArrowDown: false,
+        ArrowRight: false
+      };
+    }
+
+    // Convert joystick input to keyboard-like input
+    const threshold = 0.3;
+    
+    const keyState = {
+      KeyW: y > threshold,           // Move forward (drag up = positive y)
+      KeyA: x < -threshold,          // Move left  
+      KeyS: y < -threshold,          // Move backward (drag down = negative y)
+      KeyD: x > threshold,           // Move right
+      ArrowUp: y > threshold,
+      ArrowLeft: x < -threshold,
+      ArrowDown: y < -threshold,
+      ArrowRight: x > threshold
+    };
+    
+    console.log('🎮 Mobile key state generated:', { x, y, moving, keyState, isMobile }); // Debug log
+    return keyState;
+  };
+  
+  // Only use mobile key state on mobile devices
   const mobileKeyState = isMobile ? getMobileKeyState() : null;
+  console.log('🎮 Using mobile controls:', isMobile, 'Mobile input:', mobileInput, 'Key state:', mobileKeyState); // Debug log
   
   const state = useCharacterController(body, {
     acceleration: 0.1,

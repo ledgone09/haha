@@ -8,11 +8,13 @@ export const useMobileMovement = () => {
   });
 
   const handleMobileMovement = useCallback((input) => {
+    console.log('📱 Mobile input received:', input); // Debug log
     mobileInputRef.current = {
       x: input.x,
       y: -input.y, // Invert Y axis to match game coordinates
       moving: input.moving
     };
+    console.log('📱 Mobile state updated:', mobileInputRef.current); // Debug log
   }, []);
 
   // Function to check if mobile movement is active
@@ -46,7 +48,7 @@ export const useMobileMovement = () => {
     // Threshold for diagonal movement
     const threshold = 0.3;
     
-    return {
+    const keyState = {
       KeyW: y < -threshold,          // Move forward
       KeyA: x < -threshold,          // Move left  
       KeyS: y > threshold,           // Move backward
@@ -56,6 +58,9 @@ export const useMobileMovement = () => {
       ArrowDown: y > threshold,
       ArrowRight: x > threshold
     };
+    
+    console.log('🎮 Mobile key state generated:', { x, y, moving, keyState }); // Debug log
+    return keyState;
   }, []);
 
   return {

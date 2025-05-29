@@ -91,6 +91,9 @@ export default create(
           return {};
         });
       },
+      /**
+       * Playing
+       */
       playing: false,
       togglePlaying: () => {
         set((state) => {
@@ -185,6 +188,24 @@ export default create(
       togglePumpBattle: () => {
         set((state) => ({
           inPumpBattle: !state.inPumpBattle
+        }));
+      },
+      /**
+       * Mobile Movement
+       */
+      mobileInput: {
+        x: 0,
+        y: 0,
+        moving: false
+      },
+      setMobileInput: (input) => {
+        console.log('🏪 Global store - Setting mobile input:', input); // Debug log
+        set(() => ({
+          mobileInput: {
+            x: input.x,
+            y: -input.y, // Invert Y axis to match game coordinates
+            moving: input.moving
+          }
         }));
       },
     };
